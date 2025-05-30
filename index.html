@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,23 +16,29 @@
             margin: 20px auto;
             background-color: rgba(255, 255, 255, 0);
         }
+
         #search-input {
-            width: 90%; /* 留出两侧空白增强响应式布局 */
-            padding: 12px 45px 12px 15px; /* 优化触控区域比例 */
-            max-width: 800px; /* 限制最大宽度保持内容可读性 */
+            width: 90%;
+            /* 留出两侧空白增强响应式布局 */
+            padding: 12px 45px 12px 15px;
+            /* 优化触控区域比例 */
+            max-width: 800px;
+            /* 限制最大宽度保持内容可读性 */
             border: 2px solid rgba(224, 224, 224, 0.5);
             border-radius: 25px;
             font-size: 16px;
             transition: all 0.3s ease;
             background-color: rgba(255, 255, 255, 0);
             /*color: fff;8*/
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
+
         #search-input:focus {
             border-color: #4a90e2;
             box-shadow: 0 4px 15px rgba(74, 145, 226, 0);
             outline: none;
         }
+
         .search-container::after {
             content: '\f002';
             font-family: 'Font Awesome 6 Free';
@@ -40,23 +47,27 @@
             right: 20px;
             top: 50%;
             transform: translateY(-50%);
-            color: rgba(255,255,255,0.7);
+            color: rgba(255, 255, 255, 0.7);
             font-size: 18px;
             pointer-events: none;
             transition: color 0.3s ease;
         }
+
         .search-container:focus-within::after {
             color: #4a90e2;
         }
+
         #search-input::placeholder {
             color: #999;
             transition: opacity 0.3s ease;
         }
+
         #search-input:focus::placeholder {
             opacity: 0.7;
         }
     </style>
 </head>
+
 <body>
     <nav>
         <img src="src/src.png" alt="网站Logo" style="height: 100px;">
@@ -82,23 +93,45 @@
 
     <script>
         // 初始化播放器
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const songList = document.getElementById('song-list');
 
             // 获取audio文件夹中的所有MP3文件
             const mp3Files = [
-                
+                "一路向北 - 周杰伦.mp3",
+                "七里香 - 周杰伦.mp3",
+                "不能说的秘密 - 周杰伦.mp3",
+                "不该 (with aMEI) (with aMEI) - 周杰伦、张惠妹.mp3",
+                "兰亭序 - 周杰伦.mp3",
+                "反方向的钟 - 周杰伦.mp3",
+                "夜曲 - 周杰伦.mp3",
+                "我落泪情绪零碎 - 周杰伦.mp3",
+                "搁浅 - 周杰伦.mp3",
+                "明明就 - 周杰伦.mp3",
+                "晴天 - 周杰伦.mp3",
+                "枫 - 周杰伦.mp3",
+                "爱你没差 - 周杰伦.mp3",
+                "爱的飞行日记 - 周杰伦、杨瑞代.mp3",
+                "稻香 - 周杰伦.mp3",
+                "等你下课 (with 杨瑞代) (with 杨瑞代) - 周杰伦.mp3",
+                "红尘客栈 - 周杰伦.mp3",
+                "花海 - 周杰伦.mp3",
+                "蒲公英的约定 - 周杰伦.mp3",
+                "说了再见 - 周杰伦.mp3",
+                "说好的幸福呢 - 周杰伦.mp3",
+                "退后 - 周杰伦.mp3",
+                "青花瓷 - 周杰伦.mp3"
             ]
 
             // 生成歌曲列表
             function renderSongList(files) {
                 songList.innerHTML = '';
                 files.forEach(file => {
-                // 从文件名中提取歌曲名（去掉.mp3后缀）
-                const songName = file.replace('.mp3', '');
-                const songElement = document.createElement('div');
-                songElement.className = 'song';
-                songElement.innerHTML = `
+                    // 从文件名中提取歌曲名（去掉.mp3后缀）
+                    const songName = file.replace('.mp3', '');
+                    const songElement = document.createElement('div');
+                    songElement.className = 'song';
+                    songElement.innerHTML = `
                     <span>${songName}</span>
                     <div class="song-actions">
                         <button class="play-btn" data-file="audio/${file}">播放</button>
@@ -108,15 +141,15 @@
                     songList.appendChild(songElement);
                 });
             }
-            
+
             // 初始渲染
             renderSongList(mp3Files);
-            
+
             // 搜索功能
             const searchInput = document.getElementById('search-input');
             searchInput.addEventListener('input', (e) => {
                 const searchTerm = e.target.value.toLowerCase();
-                const filteredFiles = mp3Files.filter(file => 
+                const filteredFiles = mp3Files.filter(file =>
                     file.toLowerCase().includes(searchTerm)
                 );
                 renderSongList(filteredFiles);
@@ -134,7 +167,8 @@
                 }
             });
         });
-        
+
     </script>
 </body>
+
 </html>
