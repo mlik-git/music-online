@@ -1,0 +1,166 @@
+@media screen and (max-width: 768px) {
+  /* 导航栏适配 */
+  nav {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px 0;
+  }
+  
+  nav ul {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  nav li {
+    margin: 0 15px;
+  }
+  
+  nav a {
+    font-size: 1.1em;
+    padding: 12px 18px;
+    position: relative;
+    min-width: 48px;
+  }
+
+  nav a::after {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    right: -12px;
+    bottom: -12px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  nav a:active {
+    background-color: #f0f0f0;
+    transform: scale(0.96);
+    transition: all 0.15s;
+  }
+
+  nav a:active::after {
+    opacity: 0.15;
+  }
+
+  /* 容器优化 */
+  .container {
+    padding: 15px;
+    max-width: 100%;
+  }
+
+  /* 搜索框优化 */
+  #search-input {
+    width: 95%;
+    padding: 10px 40px 10px 15px;
+    font-size: 14px;
+  }
+
+  /* 播放器界面适配 */
+  .player {
+    padding: 1rem;
+    margin: 1rem auto;
+  }
+
+  /* 隐藏非必要元素 */
+  .desktop-only {
+    display: none !important;
+  }
+
+  /* 按钮尺寸优化 */
+  .download-btn {
+    padding: 0.4rem 1.2rem;
+    font-size: 0.9em;
+  }
+
+  /* 视频容器适配 */
+  .video-container {
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .video-player {
+    width: 95%;
+    max-width: none;
+    min-width: auto;
+    margin: 0 auto;
+  }
+
+  .video-title {
+    font-size: clamp(1.1em, 3vw, 1.4em);
+    text-align: center;
+    margin: 10px 0;
+  }
+
+  .video-thumbnail {
+    height: 200px;
+    object-fit: contain;
+    width: 100%;
+  }
+  video {
+    max-width: 100%;
+  }
+
+  /* 返回按钮移动端适配 */
+  .back-button {
+    position: relative;
+    z-index: 9999;
+  }
+
+  .back-button::after {
+    content: '';
+    position: absolute;
+    top: -30px;
+    left: -30px;
+    right: -30px;
+    bottom: -30px;
+    opacity: 0.3;
+    transition: opacity 0.2s;
+  }
+
+  .back-button:active {
+    transform: scale(0.95);
+    box-shadow: 0 0 15px rgba(255,255,255,0.3);
+  
+  
+    padding: 20px 30px;
+    min-height: 50px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .back-button::after {
+    pointer-events: none;
+    transition: all 0.2s;
+  }
+
+  .back-button:active {
+    transform: scale(0.92);
+    background: rgba(255,255,255,0.3) !important;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+.back-button:active::after {
+    opacity: 0.5;
+  }
+
+  /* Report页面视频适配 */
+  .video-container {
+    width: 95% !important;
+    margin: 0 auto;
+    padding: 1rem;
+    height: auto;
+  }
+
+  .video-container video {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .video-container .text h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+}

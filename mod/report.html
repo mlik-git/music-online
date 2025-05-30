@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>music-online</title>
+    <link rel="icon" href="../src/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/styles-phone.css" media="screen and (max-width: 768px)">
+    <style>
+        .video-container {
+            max-width: 1200px;
+            margin: 10px auto;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            width: 1000px;
+            height: 600px;
+            background-color: white;
+        }
+
+        video {
+            max-width: 600px;
+            
+        }
+
+        .text {
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body>
+    <nav>
+        <img src="../src/src.png" alt="网站Logo" style="height: 100px;">
+        <ul>
+            <li><a href="../index.html">首页</a></li>
+            <li><a href="#">班歌(维护中,不可用)</a></li>
+            <li><a href="./about.html">关于</a></li>
+            <li><a href="./report.html">举报</a></li>
+            <li><a href="#">支持</a></li>
+        </ul>
+    </nav>
+    <div class="video-container">
+        <div class="text">
+            <h1>想举报？</h1>
+        </div>
+        <div class="video">
+            <video controls autoplay loop poster="../src/你被骗了.jpg">
+                <source src="../video/你被骗了.mp4" type="video/mp4">
+                您的浏览器不支持视频播放
+            </video>
+        </div>
+
+    </div>
+</body>
+
+</html>

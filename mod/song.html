@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>班歌-music-online</title>
+    <link rel="icon" href="../src/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/styles-phone.css" media="screen and (max-width: 768px)">
+    <style>
+        .video-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            align-items: stretch;
+            
+        }
+        .video-player {
+            flex: 1;
+            min-width: 300px;
+            max-width: 380px;
+            background: #fff;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .video-player:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        .video-title {
+            font-size: 1.4em;
+            margin: 0 0 15px 0;
+            color: #2c3e50;
+            text-align: center;
+            font-weight: 600;
+        }
+        .video-thumbnail {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 8px;
+            display: block;
+        }
+       .weihu {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+        background-color: #ffffff;
+        margin-top: 35px;
+        height: 400px;
+       }
+    </style>
+</head>
+<!--<script>
+function playVideo(videoFile, videoTitle) {
+    const encodedVideo = encodeURIComponent(videoFile);
+    const encodedTitle = encodeURIComponent(videoTitle);
+    window.location.href = `player.html?video=${encodedVideo}&title=${encodedTitle}`;
+}
+</script>-->
+<body>
+    <nav>
+        <img src="../src/src.png" alt="网站Logo" style="height: 100px;">
+        <ul>
+            <li><a href="../index.html">首页</a></li>
+            <li><a href="#">班歌(维护中,不可用)</a></li>
+            <li><a href="./about.html">关于</a></li>
+            <li><a href="./report.html">举报</a></li>
+            <li><a href="#">支持</a></li>
+        </ul>
+    </nav>
+    <div class="weihu">
+        <h1>维护中...</h1>
+        <p>虽然，不知道你怎么找到这里的，但别想了都禁了，我还没写好，敬请期待...</p>
+    </div>
+    <!--<div class="container">
+        <div class="video-container">
+            <div class="video-player" onclick="playVideo('Counting Stars 带歌词.mp4', 'Counting Stars (带歌词版本)')">
+                <h2 class="video-title">Counting Stars (带歌词版本)</h2>
+                <img class="video-thumbnail" src="../src/src2.jpg" alt="Counting Stars (带歌词版本)">
+            </div>
+            <div class="video-player" onclick="playVideo('counting stars-OneRepublic.mp4', 'Counting Stars (MV)')">
+                <h2 class="video-title">Counting Stars (MV)</h2>
+                <img class="video-thumbnail" src="../src/src.jpg" alt="Counting Stars (MV)">
+            </div>
+            <div class="video-player" onclick="playVideo('Counting Stars无人声.mp4', 'Counting Stars (无人声版本)')">
+                <h2 class="video-title">Counting Stars (无人声版本)</h2>
+                <img class="video-thumbnail" src="../src/src3.jpg" alt="Counting Stars (无人声版本)">
+            </div>
+        </div>
+    </div>-->
+</body>
+</html>

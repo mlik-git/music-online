@@ -1,0 +1,205 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.player {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.player:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+h1 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.search-container {
+    margin: 1.5rem 0;
+    background: white;
+    padding: 1rem;
+    border-radius: 16px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s;
+}
+
+#search-input {
+    width: 80%;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    background: #f8f9fa;
+    margin: 0 auto;
+    display: block;
+}
+
+#search-input:focus {
+    outline: none;
+    border-color: #cccccc;
+    background: white;
+}
+
+audio {
+    width: 100%;
+    margin: 1.5rem 0;
+    border-radius: 8px;
+}
+
+.song-list {
+    margin-top: 1.5rem;
+}
+
+.song {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+.song:hover {
+    background-color: #f1f1f1;
+}
+
+.download-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 0.5rem 1.5rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 0 0.5rem;
+    }
+    
+    .player {
+        padding: 1rem;
+    }
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #333;
+}
+nav {
+    background: white;
+    padding: 20px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+nav li {
+    margin: 0 50px;
+}
+nav a {
+    color: #999;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    letter-spacing: 0.5px;
+    font-size: 1.3em;
+}
+nav a:hover {
+    background-color: #f0f0f0;
+}
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px;
+}
+.player {
+    background: white;
+    border-radius: 16px;
+    padding: 60px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+audio {
+    width: 100%;
+    margin: 10px 0;
+}
+.song-list {
+    margin-top: 15px;
+}
+.song {
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.song-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.play-btn {
+    background: #2196F3;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.play-btn:hover {
+    background: #0b7dda;
+}
+
+.download-btn {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.download-btn:hover {
+    background: #3e8e41;
+}

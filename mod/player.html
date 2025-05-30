@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>播放器-music-online</title>
+    <link rel="icon" href="../src/favicon.ico" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui;
+            height: 100vh;
+            background: #0a0a0a;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto 80px;
+            padding: 20px;
+            height: calc(100vh - 160px);
+        }
+
+        #content-title {
+            color: #fff;
+            font-size: 36px;
+            text-align: center;
+            margin: 30px 0 50px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        #audio-container,
+        #video-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        video {
+            width: 100%;
+            max-width: 1280px;
+            max-height: 80vh;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(255, 255, 255, 0);
+            filter: brightness(1.1);
+        }
+
+        video::-webkit-media-controls {
+            background: rgba(253, 253, 253, 0);
+            border-radius: 0 0 12px 12px;
+        }
+
+        video::-webkit-media-controls-panel {
+            padding: 0 15px;
+        }
+
+        video::-webkit-media-controls-play-button,
+        video::-webkit-media-controls-timeline,
+        video::-webkit-media-controls-current-time-display,
+        video::-webkit-media-controls-time-remaining-display,
+        video::-webkit-media-controls-mute-button,
+        video::-webkit-media-controls-volume-slider {
+            filter: brightness(1.2);
+        }
+        audio, video {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(250, 248, 248, 0);
+        }
+
+        audio {
+            background-color: rgba(255, 255, 255, 0) !important;
+            /*-webkit-appearance: none !important;*/
+        }
+
+        audio::-webkit-media-controls,
+        audio::-webkit-media-controls-enclosure,
+        audio::-webkit-media-controls-panel {
+            background-color: transparent !important;
+            background: transparent !important;
+        }
+
+        audio::-webkit-media-controls-timeline,
+        audio::-webkit-media-controls-current-time-display,
+        audio::-webkit-media-controls-time-remaining-display,
+        audio::-webkit-media-controls-timeline-container {
+            background-color: transparent !important;
+            color: #fff !important;
+        }
+        audio::-webkit-media-controls-play-button,
+        audio::-webkit-media-controls-mute-button {
+            filter: invert(1);
+            transition: all 0.3s ease;
+        }
+
+        audio::-webkit-media-controls-play-button:hover,
+        audio::-webkit-media-controls-mute-button:hover {
+            filter: invert(0.7) brightness(1.2);
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: none;
+            border: 1px solid rgba(255, 255, 255, 0);
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0);
+        }
+
+        .background-selector {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0);
+            padding: 8px;
+            border-radius: 24px;
+        }
+
+        .radio-label {
+            padding: 6px 12px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: rgba(255,255,255,0.7);
+            font-size: 14px;
+        }
+
+        .radio-label input {
+            margin-right: 6px;
+        }
+
+        .radio-label:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        input[type="radio"]:checked + span {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button">返回</button>
+    <div class="background-selector">
+        <label class="radio-label">
+            <input type="radio" name="background-type" value="img">
+            <span>动漫</span>
+        </label>
+        <label class="radio-label">
+            <input type="radio" name="background-type" value="img-health" checked>
+            <span>风景</span>
+        </label>
+    </div>
+    <div class="container">
+        <h1 class="title" id="content-title">加载中...</h1>
+        <div id="audio-container">
+            <audio controls autoplay id="audioPlayer">
+                <source src="" type="audio/mpeg">
+                您的浏览器不支持音频播放。
+            </audio>
+        </div>
+        <div id="video-container">
+            <video controls autoplay id="videoPlayer" poster="../src/src.jpg">
+                <source src="" type="video/mp4">
+                您的浏览器不支持视频播放。
+            </video>
+            
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('.back-button').addEventListener('click', () => {
+        window.location.href = '../index.html';
+    });
+            const urlParams = new URLSearchParams(window.location.search);
+            const songFile = urlParams.get('song');
+            const songName = urlParams.get('name');
+            const videoFile = urlParams.get('video');
+            const videoTitle = urlParams.get('title');
+            const titleElement = document.getElementById('content-title');
+            const audioContainer = document.getElementById('audio-container');
+            const videoContainer = document.getElementById('video-container');
+
+            document.querySelectorAll('input[name="background-type"]').forEach(radio => {
+                radio.addEventListener('change', loadBackgroundImage);
+            });
+
+            if (songFile && songName) {
+                audioContainer.classList.remove('hidden');
+                videoContainer.classList.add('hidden');
+                const audioPlayer = document.getElementById('audioPlayer');
+                audioPlayer.src = '../' + songFile;
+                titleElement.textContent = decodeURIComponent(songName);
+                audioPlayer.load();
+            } else if (videoFile && videoTitle) {
+                videoContainer.classList.remove('hidden');
+                audioContainer.classList.add('hidden');
+                const videoPlayer = document.getElementById('videoPlayer');
+                videoPlayer.src = '../video/' + decodeURIComponent(videoFile);
+                titleElement.textContent = decodeURIComponent(videoTitle);
+                videoPlayer.load();
+                videoPlayer.play().catch(error => {
+                    console.error('视频播放失败:', error);
+                });
+            } else {
+                window.location.href = '../index.html';
+            }
+        });
+
+        function loadBackgroundImage() {
+            const img = document.getElementById('background');
+            if (!img) {
+                const newImg = document.createElement('img');
+                newImg.id = 'background';
+                newImg.style.position = 'fixed';
+                newImg.style.top = '0';
+                newImg.style.left = '0';
+                newImg.style.width = '100%';
+                newImg.style.height = '100%';
+                newImg.style.objectFit = 'cover';
+                newImg.style.zIndex = '-1';
+                document.body.appendChild(newImg);
+            }
+            
+            const backgroundType = document.querySelector('input[name="background-type"]:checked').value;
+            const imgPath = backgroundType === 'img' ? '../img/' : '../img-health/';
+            const imgElement = document.getElementById('background');
+            imgElement.style.display = 'none';
+            
+            const images = {
+                'img': [
+                    /*'横图-10941x4327-1745060310703.avif',
+                    '横图-3340x2080-1744527102073.avif',
+                    '横图-3508x2420-1744533154986.avif',
+                    '横图-3684x2200-1744527333601.avif',
+                    '横图-3750x2250-1744527394008.avif',
+                    '横图-3840x2158-1745060458893.avif',
+                    '横图-3840x2160-1744526610392.avif',
+                    '横图-3840x2160-1744527008172.avif',
+                    '横图-3840x2160-1744527034017.avif',
+                    '横图-3840x2160-1744527324671.avif',
+                    '横图-3840x2160-1744527358213.avif',
+                    '横图-3840x2160-1744527471710.avif',
+                    '横图-3840x2160-1744533258947.avif',
+                    '横图-3940x2160-1744527176768.avif',
+                    '横图-3945x2208-1744526419053.avif',
+                    '横图-4000x2250-1744533313153.avif',
+                    '横图-4000x2267-1745060112587.avif',
+                    '横图-4000x2287-1744526728121.avif',
+                    '横图-4000x2390-1744527443444.avif',
+                    '横图-4000x2478-1744526637244.avif',
+                    '横图-4000x2500-1744526555321.avif',
+                    '横图-4040x2310-1744526618039.avif',
+                    '横图-4050x2400-1744527198651.avif',
+                    '横图-4096x2500-1744526489893.avif',
+                    '横图-4202x2480-1744533226327.avif',
+                    '横图-4204x2968-1744527044295.avif',
+                    '横图-4260x2923-1744526545047.avif',
+                    '横图-4266x2400-1745059635170.avif',
+                    '横图-4446x3424-1744526710943.avif',
+                    '横图-4552x2560-1745060423099.avif',
+                    '横图-4608x2592-1744526570492.avif',
+                    '横图-4608x2592-1744527298280.avif',
+                    '横图-4693x2294-1744526989214.avif',
+                    '横图-4800x2700-1744526999713.avif',
+                    '横图-4800x3000-1744526478819.avif',
+                    '横图-4800x3396-1744533271361.avif',
+                    '横图-4807x2812-1744526451525.avif',
+                    '横图-4821x2700-1745060405867.avif',
+                    '横图-4965x2793-1744526695778.avif',
+                    '横图-4970x2870-1744527026051.avif',
+                    '横图-4992x3328-1744527252811.avif',
+                    '横图-5000x2812-1744527225108.avif',
+                    '横图-5040x2160-1744527092184.avif',
+                    '横图-5040x2160-1745060104472.avif',
+                    '横图-5082x3000-1744533290331.avif',
+                    '横图-5082x3000-1745060447680.avif',
+                    '横图-5120x2880-1744526469613.avif',
+                    '横图-5320x2660-1744526719041.avif',
+                    '横图-5333x3000-1744527142146.avif',
+                    '横图-5334x3000-1745060147104.avif',
+                    '横图-5364x3938-1744526970188.avif',
+                    '横图-5700x3368-1744533188906.avif',
+                    '横图-5760x3240-1744526524089.avif',
+                    '横图-5760x3241-1745060477620.avif',
+                    '横图-6000x3375-1744533169805.avif',
+                    '横图-6000x3376-1745059919536.avif',
+                    '横图-6132x4320-1744533143872.avif',
+                    '横图-6144x3456-1745060072566.avif',
+                    '横图-6144x3798-1745060190864.avif',
+                    '横图-6240x3510-1744526655031.avif',
+                    '横图-6750x4500-1745060432987.avif',
+                    '横图-7254x3298-1744526627038.avif',
+                    '横图-8640x4860-1744526535437.avif',
+                    '横图-10941x4327-1745060310703.avif'*/
+                ],
+                'img-health': [
+                    'beach-583172_640.jpg',
+                    'beach-5958718_640.jpg',
+                    'bridge-53769_640.jpg',
+                    'china-6796350_640.jpg',
+                    'coast-6067736_640.jpg',
+                    'fjord-7009076_640.jpg',
+                    'forest-166733_640.jpg',
+                    'lake-192979_640.jpg',
+                    'lake-192980_640.jpg',
+                    'lake-192990_640.jpg',
+                    'lake-192991_640.jpg',
+                    'lake-4426212_640.jpg',
+                    'lake-5415202_640.jpg',
+                    'lake-6278825_640.jpg',
+                    'lake-6295829_640.jpg',
+                    'lake-696098_640.jpg',
+                    'lake-7316684_640.jpg',
+                    'landscape-5581988_640.jpg',
+                    'landscape-8068792_640.jpg',
+                    'landscape-8068793_640.jpg',
+                    'meadow-7432891_640.jpg',
+                    'mountain-6320288_640.jpg',
+                    'mountain-pass-6332476_640.jpg',
+                    'mountains-100367_640.jpg',
+                    'mountains-192987_640.jpg',
+                    'mountains-3048299_640.jpg',
+                    'mountains-440520_640.jpg',
+                    'mountains-7482182_640.jpg',
+                    'norway-4970080_640.jpg',
+                    'ocean-6376743_640.jpg',
+                    'pakistan-4305430_640.jpg',
+                    'railroad-163518_1280.jpg',
+                    'river-6302869_640.jpg',
+                    'sunlight-3130638_640.jpg',
+                    'sunset-4086848_640.jpg',
+                    'sunset-7865844_640.jpg',
+                    'tree-99852_640.jpg',
+                    'waterfalls-463925_640.jpg'
+                ]
+            };
+            
+            const imageList = images[backgroundType];
+            const randomImage = imageList[Math.floor(Math.random() * imageList.length)];
+            imgElement.src = imgPath + randomImage;
+            imgElement.onerror = () => {
+                imgElement.style.display = 'none';
+                document.body.style.background = '#0a0a0a';
+            };
+            imgElement.onload = () => {
+                imgElement.style.display = 'block';
+            };
+        }
+        loadBackgroundImage();
+    </script>
+</body>
+</html>
+
+
+

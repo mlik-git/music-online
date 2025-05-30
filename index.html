@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>music-online</title>
+    <link rel="icon" href="src/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles-phone.css" media="screen and (max-width: 768px)">
+    <link rel="stylesheet" href="css/all.min.css">
+    <style>
+        .search-container {
+            position: relative;
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: rgba(255, 255, 255, 0);
+        }
+        #search-input {
+            width: 90%; /* 留出两侧空白增强响应式布局 */
+            padding: 12px 45px 12px 15px; /* 优化触控区域比例 */
+            max-width: 800px; /* 限制最大宽度保持内容可读性 */
+            border: 2px solid rgba(224, 224, 224, 0.5);
+            border-radius: 25px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background-color: rgba(255, 255, 255, 0);
+            /*color: fff;8*/
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        #search-input:focus {
+            border-color: #4a90e2;
+            box-shadow: 0 4px 15px rgba(74, 145, 226, 0);
+            outline: none;
+        }
+        .search-container::after {
+            content: '\f002';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255,255,255,0.7);
+            font-size: 18px;
+            pointer-events: none;
+            transition: color 0.3s ease;
+        }
+        .search-container:focus-within::after {
+            color: #4a90e2;
+        }
+        #search-input::placeholder {
+            color: #999;
+            transition: opacity 0.3s ease;
+        }
+        #search-input:focus::placeholder {
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <img src="src/src.png" alt="网站Logo" style="height: 100px;">
+        <ul>
+            <li><a href="index.html">首页</a></li>
+            <li><a href="#">班歌(维护中,不可用)</a></li>
+            <li><a href="mod/about.html">关于</a></li>
+            <li><a href="mod/report.html">举报</a></li>
+            <li><a href="#">支持</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <div class="player">
+            <h1>音乐下载播放站</h1>
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="输入歌曲名称或歌手搜索...">
+            </div>
+            <div class="song-list" id="song-list">
+                <!-- 歌曲列表将通过JavaScript动态生成 -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 初始化播放器
+        document.addEventListener('DOMContentLoaded', function() {
+            const songList = document.getElementById('song-list');
+
+            // 获取audio文件夹中的所有MP3文件
+            const mp3Files = [
+                '1234567 - 方大同.mp3',
+                'BB88 - 方大同.mp3',
+                'Counting Stars - OneRepublic.mp3',
+                'Love Song - 方大同.mp3',
+                'Merry Christmas Mr.Lawrence - 坂本龍一.mp3',
+                'Nothing Gonna Change My Love For You - 方大同.mp3',
+                'Six Degrees - 派伟俊、周杰伦.mp3',
+                'Sorry - 方大同.mp3',
+                'Take Me Hand - DAISHI DANCE、Cécile Corbel.mp3',
+                'You(=I) - 脸红的思春期.mp3',
+                'ちょっぷ！ちょっぷ！ (feat. 初音ミク & 重音テト) - 444、初音ミク、重音テト.mp3',
+                'クリームソーダとシャンデリア - 神野メイ、Henrii、ねんね.mp3',
+                '一千个伤心的理由 - 张学友.mp3',
+                '一笑倾城 - 汪苏泷.mp3',
+                '一路向北 - 周杰伦.mp3',
+                '七里香 - 周杰伦.mp3',
+                '三人游 - 方大同.mp3',
+                '三年二班 - 周杰伦.mp3',
+                '不怕不怕 (Original Radio Remix) - 美美jocie.mp3',
+                '不能说的秘密 - 周杰伦.mp3',
+                '不该 (with aMEI) (with aMEI) - 周杰伦、张惠妹.mp3',
+                '世界が終るまでは… - WANDS.mp3',
+                '东风破 - 周杰伦.mp3',
+                '为你写的歌 - 方大同.mp3',
+                '乌鸦 - 许嵩.mp3',
+                '书香年华 - 许嵩、孙涛.mp3',
+                '今天你要嫁给我 - 陶喆、蔡依林.mp3',
+                '今年勇 - 许嵩.mp3',
+                '以父之名 - 周杰伦.mp3',
+                '你若成风 - 许嵩.mp3',
+                '倒带 - 蔡依林.mp3',
+                '借口 - 周杰伦.mp3',
+                '偏向 - 陈子晴.mp3',
+                '偏爱 - 张芸京.mp3',
+                '像我这样的人 (Live) - 毛不易.mp3',
+                '全球变冷 - 许嵩.mp3',
+                '兰亭序 - 周杰伦.mp3',
+                '关不上的窗 - 周传雄.mp3',
+                '关于爱的定义 - 方大同.mp3',
+                '冬天的秘密 - 周传雄.mp3',
+                '出卖 - 周传雄.mp3',
+                '医生 - 许嵩.mp3',
+                '千古 - 许嵩.mp3',
+                '千本桜 - 初音ミク.mp3',
+                '千百度 - 许嵩.mp3',
+                '千纸鹤 - 方大同.mp3',
+                '半城烟沙 - 许嵩.mp3',
+                '半岛铁盒 - 周杰伦.mp3',
+                '南山忆 - 许嵩.mp3',
+                '南音 - 方大同.mp3',
+                '双截棍 - 周杰伦.mp3',
+                '反方向的钟 - 周杰伦.mp3',
+                '发如雪 - 周杰伦.mp3',
+                '只有你 - 许嵩.mp3',
+                '只要平凡 - 张杰、张碧晨.mp3',
+                '可爱女人 - 周杰伦.mp3',
+                '叹服 - 许嵩.mp3',
+                '吉普赛情人 - 周传雄.mp3',
+                '后会无期 - 汪苏泷、徐良.mp3',
+                '听 - 方大同.mp3',
+                '听妈妈的话 - 周杰伦.mp3',
+                '告白气球 - 周杰伦.mp3',
+                '味道 - 方大同、Zion.T、Crush.mp3',
+                '哪里都是你 - 周杰伦.mp3',
+                '回留 - 方大同.mp3',
+                '因为你 - 方大同.mp3',
+                '坏女孩 - 徐良、小凌.mp3',
+                '坏孩子 - 许嵩.mp3',
+                '城府 - 许嵩.mp3',
+                '复刻回忆 - 薛凯琪、方大同.mp3',
+                '外婆 - 周杰伦.mp3',
+                '多余的解释 - 许嵩.mp3',
+                '夜、萤火虫和你 - AniFace.mp3',
+                '夜曲 - 周杰伦.mp3',
+                '夜的第七章 - 周杰伦、潘儿.mp3',
+                '大海 - 张雨生.mp3',
+                '大海 - 杨培安.mp3',
+                '大笨钟 - 周杰伦.mp3',
+                '天气先生 - 方大同.mp3',
+                '天龙八部之宿敌 - 许嵩.mp3',
+                '奢香夫人 - 凤凰传奇.mp3',
+                '好不容易 - 方大同.mp3',
+                '如果当时 - 许嵩.mp3',
+                '如果这都不算爱 - 张学友.mp3',
+                '如约而至 - 许嵩.mp3',
+                '如谜 - 许嵩.mp3',
+                '妥协 - 蔡依林.mp3',
+                '姑娘别哭泣 - 柯柯柯啊.mp3',
+                '室内系的TrackMaker - hanser.mp3',
+                '寂寞沙洲冷 - 周传雄.mp3',
+                '小苹果 - 筷子兄弟.mp3',
+                '山水之间 - 许嵩.mp3',
+                '布拉格广场 - 蔡依林、周杰伦.mp3',
+                '幻听 - 许嵩.mp3',
+                '庐州月 - 许嵩.mp3',
+                '开不了口 - 周杰伦.mp3',
+                '弱水三千 - 周传雄.mp3',
+                '弹指一挥间 - 许嵩.mp3',
+                '彩虹 - 周杰伦.mp3',
+                '微博控 - 许嵩.mp3',
+                '总结 - 方大同.mp3',
+                '情胜策略 - 方大同.mp3',
+                '惊鸿一面 - 许嵩、黄龄.mp3',
+                '想象之中 - 许嵩.mp3',
+                '我不配 - 周杰伦.mp3',
+                '我乐意 - 许嵩.mp3',
+                '我会好好的 - 王心凌.mp3',
+                '我想牵着你的手 - 许嵩.mp3',
+                '我是如此相信 - 周杰伦.mp3',
+                '我的心太乱 - 周传雄.mp3',
+                '我落泪情绪零碎 - 周杰伦.mp3',
+                '我难过 - 周传雄.mp3',
+                '手写的从前 - 周杰伦.mp3',
+                '才二十三 - 方大同.mp3',
+                '拆东墙 - 许嵩.mp3',
+                '搁浅 - 周杰伦.mp3',
+                '摄影艺术 - 许嵩.mp3',
+                '断桥残雪 - 许嵩.mp3',
+                '无名的人 - 毛不易.mp3',
+                '无名的歌 - 周传雄.mp3',
+                '日不落 - 蔡依林.mp3',
+                '时间都去哪儿了 - 周同学Pianist(钢琴).mp3',
+                '明明就 - 周杰伦.mp3',
+                '星座书上 - 许嵩.mp3',
+                '春风吹 - 方大同.mp3',
+                '晴天 - 周杰伦.mp3',
+                '暖风 - 周传雄.mp3',
+                '暗号 - 周杰伦.mp3',
+                '曼陀山庄 - 许嵩.mp3',
+                '最伟大的作品 - 周杰伦.mp3',
+                '最佳许嵩 - 歌手.mp3',
+                '最炫民族风 - 凤凰传奇.mp3',
+                '最长的电影 - 周杰伦.mp3',
+                '有何不可 - 许嵩.mp3',
+                '本草纲目 - 周杰伦.mp3',
+                '枫 - 周杰伦.mp3',
+                '枫叶做的风铃 - 方大同.mp3',
+                '桥边姑娘 - 海伦.mp3',
+                '梦蝴蝶 - 方大同.mp3',
+                '梧桐灯 - 许嵩.mp3',
+                '止战之殇 - 周杰伦.mp3',
+                '每个人都会 - 方大同.mp3',
+                '江湖 - 许嵩.mp3',
+                '没想到 - 许嵩.mp3',
+                '河山大好 - 许嵩.mp3',
+                '消愁 (Live) - 毛不易.mp3',
+                '清明雨上 - 许嵩.mp3',
+                '灰色头像 - 许嵩.mp3',
+                '烟花易冷 - 周杰伦.mp3',
+                '燕归巢 - 许嵩.mp3',
+                '爱你 - 王心凌.mp3',
+                '爱你没差 - 周杰伦.mp3',
+                '爱在 - 方大同.mp3',
+                '爱在西元前 - 周杰伦.mp3',
+                '爱情三十六计 - 蔡依林.mp3',
+                '爱情废柴 - 周杰伦.mp3',
+                '爱爱爱 - 方大同.mp3',
+                '爱的飞行日记 - 周杰伦、杨瑞代.mp3',
+                '爱的魔法 - 金莎.mp3',
+                '父亲 - 筷子兄弟.mp3',
+                '牧马城市 - 毛不易.mp3',
+                '特别的人 - 方大同.mp3',
+                '犯贱 - 徐良、阿悄.mp3',
+                '猛龙过江 - 筷子兄弟.mp3',
+                '玫瑰少年 - 五月天.mp3',
+                '玫瑰花的葬礼 - 许嵩.mp3',
+                '珊瑚海 - 周杰伦、Lara梁心颐.mp3',
+                '甜甜的 - 周杰伦.mp3',
+                '男人海洋 - 周传雄.mp3',
+                '看我72变 - 蔡依林.mp3',
+                '神のまにまに - 初音ミク、GUMI、鏡音リン.mp3',
+                '稻香 - 周杰伦.mp3',
+                '突然好想你 - 五月天.mp3',
+                '第一次爱的人 - 王心凌.mp3',
+                '等一分钟 - 徐誉滕.mp3',
+                '等你下课 (with 杨瑞代) (with 杨瑞代) - 周杰伦.mp3',
+                '简单爱 - 周杰伦.mp3',
+                '算什么男人 - 周杰伦.mp3',
+                '素颜 - 许嵩、何曼婷.mp3',
+                '红尘客栈 - 周杰伦.mp3',
+                '红豆 - 方大同.mp3',
+                '给我一首歌的时间 - 周杰伦.mp3',
+                '羁绊 - 许嵩.mp3',
+                '美丽的神话 - 孙楠、韩红.mp3',
+                '老男孩 - 筷子兄弟.mp3',
+                '花海 - 周杰伦.mp3',
+                '花香 - 周传雄.mp3',
+                '菊花台 - 周杰伦.mp3',
+                '蒲公英的约定 - 周杰伦.mp3',
+                '蓝色土耳其 - 周传雄.mp3',
+                '装糊涂 - 许嵩.mp3',
+                '认错 - 许嵩.mp3',
+                '许愿池的希腊少女 - 蔡依林.mp3',
+                '说了再见 - 周杰伦.mp3',
+                '说好不哭 (with 五月天阿信) (with 五月天阿信) - 周杰伦.mp3',
+                '说好的幸福呢 - 周杰伦.mp3',
+                '说爱你 - 蔡依林.mp3',
+                '轨迹 - 周杰伦.mp3',
+                '过火 - 张信哲.mp3',
+                '这一路走来 - 杨宗纬.mp3',
+                '退后 - 周杰伦.mp3',
+                '野路 - 许嵩.mp3',
+                '阳光宅男 - 周杰伦.mp3',
+                '陪我过个冬 (相思八千里) (相思八千里) - 李嘉嘉.mp3',
+                '雅俗共赏 - 许嵩.mp3',
+                '雨下一整晚 - 周杰伦.mp3',
+                '雨幕 - 许嵩.mp3',
+                '霍元甲 - 周杰伦.mp3',
+                '青花 - 周传雄.mp3',
+                '青花瓷 - 周杰伦.mp3',
+                '願い〜あの頃のキミへ〜 - 當山みれい.mp3',
+                '饿狼传说 - 张学友.mp3',
+                '麦恩莉 - 方大同.mp3',
+                '麻雀 - 李荣浩.mp3',
+                '黄昏 - 周传雄.mp3',
+                '黑白 - 方大同.mp3',
+                '龙卷风 - 周杰伦.mp3'
+            ]
+
+            // 生成歌曲列表
+            function renderSongList(files) {
+                songList.innerHTML = '';
+                files.forEach(file => {
+                // 从文件名中提取歌曲名（去掉.mp3后缀）
+                const songName = file.replace('.mp3', '');
+                const songElement = document.createElement('div');
+                songElement.className = 'song';
+                songElement.innerHTML = `
+                    <span>${songName}</span>
+                    <div class="song-actions">
+                        <button class="play-btn" data-file="audio/${file}">播放</button>
+                        <button class="download-btn" data-file="audio/${file}">下载</button>
+                    </div>
+                `;
+                    songList.appendChild(songElement);
+                });
+            }
+            
+            // 初始渲染
+            renderSongList(mp3Files);
+            
+            // 搜索功能
+            const searchInput = document.getElementById('search-input');
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const filteredFiles = mp3Files.filter(file => 
+                    file.toLowerCase().includes(searchTerm)
+                );
+                renderSongList(filteredFiles);
+            });
+
+            // 为歌曲列表添加事件委托
+            songList.addEventListener('click', (e) => {
+                if (e.target.classList.contains('play-btn')) {
+                    const file = e.target.getAttribute('data-file');
+                    const songName = e.target.parentElement.previousElementSibling.textContent;
+                    window.location.href = `mod/player.html?song=${encodeURIComponent(file)}&name=${encodeURIComponent(songName)}`;
+                } else if (e.target.classList.contains('download-btn')) {
+                    const file = e.target.getAttribute('data-file');
+                    window.location.href = file;
+                }
+            });
+        });
+        
+    </script>
+</body>
+</html>

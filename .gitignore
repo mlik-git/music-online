@@ -1,0 +1,32 @@
+# IDE配置文件
+.vscode/
+.idea/
+*.iml
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 临时文件
+*.log
+*.tmp
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 编译输出
+dist/
+build/
+
+# 环境变量
+.env
+.env.local
+.env.*.local
+
+# 其他
+*.bak
+*.swp
+*.swo
