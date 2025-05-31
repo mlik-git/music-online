@@ -198,6 +198,48 @@ audio {
     }
 }
 
+@keyframes slideInLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-left {
+    animation: slideInLeft 0.6s ease forwards;
+    opacity: 0;
+    will-change: transform, opacity;
+}
+
+.animate-right {
+    animation: slideInRight 0.6s ease forwards;
+    opacity: 0;
+    will-change: transform, opacity;
+}
+
+.animated-card:nth-child(odd) {
+    animation-delay: 0.3s;
+}
+
+.animated-card:nth-child(even) {
+    animation-delay: 0.6s;
+}
+
 .song {
     padding: 20px;
     border-bottom: 1px solid #eee;
@@ -283,6 +325,53 @@ nav a:hover {
 .song:nth-child(odd) {
     animation-delay: 0.2s;
 }
+/* About页动画 */
+.animated-title {
+    animation: fadeInUp 0.6s ease forwards;
+    animation-delay: 0.2s;
+}
+
+.animated-subtitle {
+    animation: fadeInUp 0.6s ease forwards;
+    animation-delay: 0.4s;
+}
+
+/* 举报页面动画 */
+.text h1 {
+    animation: fadeInUp 0.6s ease forwards;
+    animation-delay: 0.3s;
+}
+
+.video-container {
+    animation: slideInRight 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    opacity: 0;
+}
+
+.video {
+    animation: fadeInUp 0.6s ease forwards;
+    animation-delay: 0.6s;
+}
+
+.animated-card {
+    opacity: 0;
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.animated-card:nth-child(1) { animation-delay: 1.2s; }
+.animated-card:nth-child(2) { animation-delay: 0.8s; }
+.animated-card:nth-child(3) { animation-delay: 1.0s; }
+
+.parallax-container {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .parallax-container {
+        transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+}
+
 .song:nth-child(even) {
     animation-delay: 0.4s;
 }
